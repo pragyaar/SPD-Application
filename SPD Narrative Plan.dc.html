@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,500;0,600;1,500;1,600&display=swap" rel="stylesheet">
+<style>
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  body{margin:0;font-family:'Poppins',system-ui,sans-serif;background:#fbf1e2;color:#2b1c14}
+  ::selection{background:#2b1c14;color:#fbf1e2}
+  a{color:inherit;text-decoration:none}
+  a:hover{color:#ad4a1f}
+  @keyframes fadeUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+  @keyframes pulse{0%,100%{transform:scale(1);opacity:.55}50%{transform:scale(1.5);opacity:1}}
+  @keyframes drift{0%{transform:translateX(0) rotate(0)}100%{transform:translateX(-6px) rotate(-4deg)}}
+  details summary::-webkit-details-marker{display:none}
+  @media (prefers-reduced-motion: reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div ref="{{ rootRef }}" style="max-width:1100px;margin:0 auto;background:#fbf1e2;position:relative;overflow-x:hidden">
+
+  <!-- decorative rhythm dots -->
+  <div style="position:absolute;top:36px;right:-10px;display:flex;gap:10px;opacity:.5;pointer-events:none" aria-hidden="true">
+    <div style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;animation:pulse 2.4s ease-in-out infinite"></div>
+    <div style="width:7px;height:7px;border-radius:50%;background:#c98a2e;animation:pulse 2.4s ease-in-out .3s infinite"></div>
+    <div style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;animation:pulse 2.4s ease-in-out .6s infinite"></div>
+  </div>
+
+  <!-- ============ HEADER ============ -->
+  <header style="border-bottom:1px solid #2b1c14;padding:52px 28px 0">
+    <p style="font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#8a7565;font-weight:500;margin:0 0 20px">Communications, Content &amp; Narrative Lead · Application by Pragya Arya</p>
+    <h1 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(34px,5.6vw,60px);line-height:1.08;letter-spacing:-.01em;max-width:19ch;margin:0;position:relative">
+      Seeta Patel Dance has a world-class story.<br>
+      <em style="font-style:italic;color:#ad4a1f">Here is how I would make the world hear it.</em>
+    </h1>
+    <p style="margin-top:22px;max-width:62ch;color:#5f5044;font-size:15.5px;line-height:1.7">An interactive audit, a 90-day narrative plan timed to your Summer 2026 outdoor tour, and a point-by-point response to your person specification: researched and built before day one, because that is how I would work after it.</p>
+
+    <div style="margin-top:32px;display:flex;flex-wrap:wrap;align-items:baseline;gap:10px 44px">
+      <span style="display:flex;align-items:baseline;gap:12px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,68px);font-weight:600;line-height:1">{{ countNom }}</span>
+        <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8a7565;font-weight:500;max-width:13ch;line-height:1.5">Olivier nomination</span>
+      </span>
+      <span style="display:flex;align-items:baseline;gap:12px">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:clamp(44px,6vw,68px);font-weight:600;line-height:1;color:#ad4a1f">{{ countIGHero }}</span>
+        <span style="font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8a7565;font-weight:500;max-width:13ch;line-height:1.5">Instagram followers</span>
+      </span>
+      <span style="flex-basis:100%;font-family:'Cormorant Garamond',serif;font-style:italic;font-size:21px;margin-top:2px">That gap is the job. This is my plan to close it.</span>
+    </div>
+
+    <div style="display:flex;gap:32px;flex-wrap:wrap;margin-top:30px;font-size:12px;letter-spacing:.12em;text-transform:uppercase;font-weight:500">
+      <span style="color:#8a7565">Prepared · June 2026</span>
+      <span style="color:#8a7565">For · Seeta Patel Dance</span>
+      <span style="color:#8a7565">By · Pragya Arya, Oxford</span>
+    </div>
+
+    <nav role="tablist" aria-label="Dashboard sections" style="margin:38px 0 0;display:flex;gap:0;overflow-x:auto">
+      <button role="tab" aria-selected="{{ isAudit }}" onclick="{{ goAudit }}" style="{{ tabAuditStyle }}" style-hover="color:#2b1c14">
+        <span style="font-weight:300;margin-right:8px;color:#c9b596">01</span>The Audit
+      </button>
+      <button role="tab" aria-selected="{{ isPlan }}" onclick="{{ goPlan }}" style="{{ tabPlanStyle }}" style-hover="color:#2b1c14">
+        <span style="font-weight:300;margin-right:8px;color:#c9b596">02</span>The 90-Day Plan
+      </button>
+      <button role="tab" aria-selected="{{ isFit }}" onclick="{{ goFit }}" style="{{ tabFitStyle }}" style-hover="color:#2b1c14">
+        <span style="font-weight:300;margin-right:8px;color:#c9b596">03</span>The Fit
+      </button>
+    </nav>
+  </header>
+
+  <main style="padding:56px 28px 90px">
+
+  <!-- ============ PANEL 1: AUDIT ============ -->
+  <sc-if value="{{ isAudit }}" hint-placeholder-val="{{ true }}">
+  <section aria-label="The Audit">
+
+    <div data-reveal="1" style="border:1px solid #2b1c14;padding:32px 34px;margin-bottom:52px;background:#f3e4d0">
+      <p style="font-family:'Cormorant Garamond',Georgia,serif;font-size:clamp(20px,2.6vw,27px);line-height:1.4;font-weight:500;max-width:44ch;margin:0">&ldquo;You'll be the voice that brings our brand to life, while <span style="color:#ad4a1f">safeguarding the integrity and quality</span> of everything we put out into the world.&rdquo;</p>
+      <p style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#8a7565;font-weight:600;margin:14px 0 0">The role, in your own words · Seeta Patel Dance job pack</p>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));margin-top:26px;border-top:1px solid #ddc7a8">
+        <span style="padding:16px 20px 0 0;font-size:12.5px;color:#8a7565;line-height:1.4"><b style="display:block;font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;font-weight:600;margin-bottom:3px">0.6 FTE</b>3 days per week</span>
+        <span style="padding:16px 20px 0 0;font-size:12.5px;color:#8a7565;line-height:1.4"><b style="display:block;font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;font-weight:600;margin-bottom:3px">To Mar 2028</b>fixed term, extension funding-dependent</span>
+        <span style="padding:16px 20px 0 0;font-size:12.5px;color:#8a7565;line-height:1.4"><b style="display:block;font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;font-weight:600;margin-bottom:3px">Reports to</b>Executive Director</span>
+        <span style="padding:16px 20px 0 0;font-size:12.5px;color:#8a7565;line-height:1.4"><b style="display:block;font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;font-weight:600;margin-bottom:3px">&pound;36,000</b>FTE salary</span>
+        <span style="padding:16px 20px 0 0;font-size:12.5px;color:#8a7565;line-height:1.4"><b style="display:block;font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;font-weight:600;margin-bottom:3px">Remote</b>interview date TBC</span>
+      </div>
+    </div>
+
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(26px,3.4vw,38px);line-height:1.15;margin:0 0 10px">What I see: a story-to-audience gap.</h2>
+    <p style="color:#5f5044;max-width:68ch;margin:0 0 44px;font-size:15.5px;line-height:1.7">Seeta Patel Dance creates live stage work rooted in <strong style="color:#2b1c14;font-weight:500">classical Indian and contemporary dance and dance theatre</strong>. It is an Arts Council England National Portfolio Organisation, home to the Olivier-nominated <em>The Rite of Spring</em>, the production for which Seeta became the <strong style="color:#2b1c14;font-weight:500">first South Asian woman of colour ever nominated for Best New Dance Production</strong>, and its Talent Development Programme is now in its fourth year. Stories this strong should be reaching tens of thousands. Right now they reach a fraction of that, and closing that gap is precisely the job to be done.</p>
+
+    <div data-reveal="1" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));border:1px solid #2b1c14;margin-bottom:56px">
+      <div style="padding:26px 24px;border-right:1px solid #2b1c14;border-bottom:1px solid #ddc7a8"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;line-height:1">Olivier</div><div style="font-size:12px;color:#8a7565;margin-top:8px;letter-spacing:.04em">nominated: <em>The Rite of Spring</em>, a first for a South Asian woman of colour in the category</div></div>
+      <div style="padding:26px 24px;border-right:1px solid #2b1c14;border-bottom:1px solid #ddc7a8"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;line-height:1">4<span style="font-size:22px">th</span> yr</div><div style="font-size:12px;color:#8a7565;margin-top:8px;letter-spacing:.04em">Talent Development Programme for early-career Bharatanatyam artists</div></div>
+      <div style="padding:26px 24px;border-right:1px solid #2b1c14;border-bottom:1px solid #ddc7a8"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;line-height:1">2022</div><div style="font-size:12px;color:#8a7565;margin-top:8px;letter-spacing:.04em">Arts Council England National Portfolio Organisation</div></div>
+      <div style="padding:26px 24px;border-bottom:1px solid #ddc7a8"><div style="font-family:'Cormorant Garamond',serif;font-size:40px;font-weight:600;line-height:1">Jul&ndash;Sep</div><div style="font-size:12px;color:#8a7565;margin-top:8px;letter-spacing:.04em">2026 outdoor tour of <em>The Rite of Spring</em>, live as this role begins</div></div>
+    </div>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">The work itself</p>
+    <div data-reveal="1" style="border:1px solid #2b1c14;margin-bottom:56px">
+      <div style="position:relative;padding-top:56.25%;background:#000">
+        <iframe src="https://player.vimeo.com/video/755574415?title=0&byline=0&portrait=0&dnt=1" title="Seeta Patel Dance: The Rite of Spring, official trailer" loading="lazy" allow="fullscreen; picture-in-picture" allowfullscreen="" style="position:absolute;inset:0;width:100%;height:100%;border:0"></iframe>
+      </div>
+      <div style="display:flex;justify-content:space-between;gap:18px;padding:14px 18px;font-size:12px;color:#8a7565;border-top:1px solid #2b1c14;flex-wrap:wrap">
+        <span><b style="font-weight:500;color:#2b1c14">The Rite of Spring</b> · official trailer</span>
+        <span>Embedded from the official Vimeo upload with do-not-track enabled: rights and privacy respected, exactly as I would publish.</span>
+      </div>
+    </div>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">Channel footprint, compiled from public sources, June 2026</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:16px;margin-bottom:56px">
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:24px;background:#fbf1e2;transition:border-color .2s,transform .2s" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <h3 style="font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;margin:0">Instagram <span style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid #2b1c14;border-radius:999px">Primary</span></h3>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;margin:14px 0 2px">{{ countIGChan }}</div>
+        <div style="font-size:12px;color:#8a7565">followers · @seetapateldance</div>
+        <p style="font-size:13.5px;color:#8a7565;margin-top:14px;border-top:1px solid #ddc7a8;padding-top:14px"><b style="color:#2b1c14;font-weight:500">The engine, underpowered.</b> Strong imagery, but reach is far below the weight of the work. Reels-first cadence, archive remixes and tour coverage can change this quickly.</p>
+      </div>
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:24px;background:#fbf1e2;transition:border-color .2s,transform .2s" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <h3 style="font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;margin:0">Facebook <span style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid #2b1c14;border-radius:999px;background:#2b1c14;color:#fbf1e2">Dormant risk</span></h3>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;margin:14px 0 2px">{{ countFB }}</div>
+        <div style="font-size:12px;color:#8a7565">followers (approx.)</div>
+        <p style="font-size:13.5px;color:#8a7565;margin-top:14px;border-top:1px solid #ddc7a8;padding-top:14px"><b style="color:#2b1c14;font-weight:500">Where UK arts audiences over 45 still live</b>, and where venue partners cross-post. Needs a lighter, syndication-led strategy rather than abandonment.</p>
+      </div>
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:24px;background:#fbf1e2;transition:border-color .2s,transform .2s" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <h3 style="font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;margin:0">TikTok <span style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid #2b1c14;border-radius:999px;background:#2b1c14;color:#fbf1e2">Not found</span></h3>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;margin:14px 0 2px">0</div>
+        <div style="font-size:12px;color:#8a7565">no active company presence located</div>
+        <p style="font-size:13.5px;color:#8a7565;margin-top:14px;border-top:1px solid #ddc7a8;padding-top:14px"><b style="color:#2b1c14;font-weight:500">The job pack names TikTok; the channel doesn't exist yet.</b> Bharatanatyam's rhythm, footwork and adornment are natively short-form. I have built viral short-form from zero before.</p>
+      </div>
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:24px;background:#fbf1e2;transition:border-color .2s,transform .2s" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <h3 style="font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;margin:0">YouTube / Vimeo <span style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid #ad4a1f;color:#ad4a1f;border-radius:999px">Asset-rich</span></h3>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;margin:14px 0 2px">&middot;</div>
+        <div style="font-size:12px;color:#8a7565">archive of trailers &amp; full works</div>
+        <p style="font-size:13.5px;color:#8a7565;margin-top:14px;border-top:1px solid #ddc7a8;padding-top:14px"><b style="color:#2b1c14;font-weight:500">A sleeping archive.</b> Years of professional footage (BSO collaboration, projection mapping, India masterclasses) ready to be cut into clips, reels, stories and threads.</p>
+      </div>
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:24px;background:#fbf1e2;transition:border-color .2s,transform .2s" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <h3 style="font-size:13px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;display:flex;justify-content:space-between;align-items:center;margin:0">LinkedIn <span style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;padding:3px 9px;border:1px solid #2b1c14;border-radius:999px">Underused</span></h3>
+        <div style="font-family:'Cormorant Garamond',serif;font-size:42px;font-weight:600;margin:14px 0 2px">&middot;</div>
+        <div style="font-size:12px;color:#8a7565">minimal organisational presence</div>
+        <p style="font-size:13.5px;color:#8a7565;margin-top:14px;border-top:1px solid #ddc7a8;padding-top:14px"><b style="color:#2b1c14;font-weight:500">The sector-influence channel.</b> ACE stakeholders, venue programmers, funders and press all live here. Talent-development stories belong on it.</p>
+      </div>
+    </div>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">Share of story vs share of voice</p>
+    <div data-reveal="1" style="border:1px solid #2b1c14;padding:34px;display:grid;grid-template-columns:1fr 1fr;gap:40px;margin-bottom:56px">
+      <div>
+        <h4 style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin:0 0 18px">The narrative assets SPD already owns</h4>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid #ddc7a8;font-size:14px"><span style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;flex:none;position:relative;top:-2px"></span>Olivier-nominated <em>Rite of Spring</em> with the Bournemouth Symphony Orchestra</div>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid #ddc7a8;font-size:14px"><span style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;flex:none;position:relative;top:-2px"></span>Projection mapping on landmark buildings: theatre off the stage</div>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid #ddc7a8;font-size:14px"><span style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;flex:none;position:relative;top:-2px"></span>Masterclass tours across five Indian cities</div>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid #ddc7a8;font-size:14px"><span style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;flex:none;position:relative;top:-2px"></span>Talent Development Programme building real pathways for South Asian dancers</div>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;border-bottom:1px solid #ddc7a8;font-size:14px"><span style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;flex:none;position:relative;top:-2px"></span>Mother Earth &amp; climate themes embedded in the work itself</div>
+        <div style="display:flex;gap:12px;align-items:baseline;padding:9px 0;font-size:14px"><span style="width:7px;height:7px;border-radius:50%;background:#ad4a1f;flex:none;position:relative;top:-2px"></span>A founder whose story is itself a first in British dance history</div>
+      </div>
+      <div>
+        <h4 style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin:0 0 18px">How loudly each is currently heard</h4>
+        <div style="margin-bottom:22px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px"><span>Story strength</span><span style="color:#8a7565">exceptional</span></div><div style="height:8px;background:#f3e4d0;border:1px solid #ddc7a8;overflow:hidden"><i style="{{ barStoryStyle }}"></i></div></div>
+        <div style="margin-bottom:22px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px"><span>Digital reach</span><span style="color:#8a7565">emerging</span></div><div style="height:8px;background:#f3e4d0;border:1px solid #ddc7a8;overflow:hidden"><i style="{{ barReachStyle }}"></i></div></div>
+        <div style="margin-bottom:22px"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px"><span>Short-form video presence</span><span style="color:#8a7565">untapped</span></div><div style="height:8px;background:#f3e4d0;border:1px solid #ddc7a8;overflow:hidden"><i style="{{ barShortStyle }}"></i></div></div>
+        <div style="margin-bottom:0"><div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:7px"><span>Archive utilisation</span><span style="color:#8a7565">low</span></div><div style="height:8px;background:#f3e4d0;border:1px solid #ddc7a8;overflow:hidden"><i style="{{ barArchiveStyle }}"></i></div></div>
+        <p style="font-size:11.5px;color:#8a7565;margin-top:14px;font-style:italic">Qualitative assessment from public channels, June 2026, to be re-baselined with real analytics in week one.</p>
+      </div>
+    </div>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">Four opportunities, in priority order</p>
+    <div style="border-top:1px solid #2b1c14">
+      <details style="border-bottom:1px solid #ddc7a8;cursor:pointer">
+        <summary style="list-style:none;display:flex;align-items:baseline;gap:22px;padding:22px 6px;font-size:16px;font-weight:400" style-hover="background:#f3e4d0"><span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#8a7565;width:34px;flex:none">i.</span><span style="flex:1">Turn the Summer 2026 outdoor tour into a content engine</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:0 6px 26px 56px;color:#8a7565;font-size:14.5px;max-width:75ch">The tour runs July to early September, exactly when this role begins. Every venue is a story: new city, new audience, new backdrop. A <b style="color:#2b1c14;font-weight:500">tour-diary format</b> (60 to 90 second recap reels, dancer takeovers, audience reaction capture) compounds across the run and gives every venue partner assets to amplify. This is the single highest-leverage window of the year, and it should not pass undocumented.</div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8;cursor:pointer">
+        <summary style="list-style:none;display:flex;align-items:baseline;gap:22px;padding:22px 6px;font-size:16px;font-weight:400" style-hover="background:#f3e4d0"><span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#8a7565;width:34px;flex:none">ii.</span><span style="flex:1">Launch TikTok with Bharatanatyam-native short-form</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:0 6px 26px 56px;color:#8a7565;font-size:14.5px;max-width:75ch">Adavus, rhythm cycles, eye and hand vocabulary, the 40-minute make-up ritual: Bharatanatyam is <b style="color:#2b1c14;font-weight:500">structurally suited to short-form</b> in a way most contemporary dance is not. A disciplined three-format pilot (explainer / process / performance excerpt) reaches the younger and newer audiences the job pack names, without diluting brand integrity.</div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8;cursor:pointer">
+        <summary style="list-style:none;display:flex;align-items:baseline;gap:22px;padding:22px 6px;font-size:16px;font-weight:400" style-hover="background:#f3e4d0"><span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#8a7565;width:34px;flex:none">iii.</span><span style="flex:1">Wake the archive</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:0 6px 26px 56px;color:#8a7565;font-size:14.5px;max-width:75ch">Years of professional footage and photography already exist. Repurposed systematically (<b style="color:#2b1c14;font-weight:500">one shoot, ten assets</b>), the archive can sustain a rolling editorial calendar at near-zero marginal cost, exactly as the job pack asks: &ldquo;edit and repurpose archive material into fresh branded assets.&rdquo;</div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8;cursor:pointer">
+        <summary style="list-style:none;display:flex;align-items:baseline;gap:22px;padding:22px 6px;font-size:16px;font-weight:400" style-hover="background:#f3e4d0"><span style="font-family:'Cormorant Garamond',serif;font-size:22px;font-style:italic;color:#8a7565;width:34px;flex:none">iv.</span><span style="flex:1">Build the climate &amp; community thread into the narrative framework</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:0 6px 26px 56px;color:#8a7565;font-size:14.5px;max-width:75ch">The job pack's most distinctive duty: embedding <b style="color:#2b1c14;font-weight:500">environmental justice and decolonising approaches to climate</b> in SPD's narrative. The work already carries it: <em>The Rite of Spring</em> is Mother Earth's journey from birth to destruction to deliverance, performed outdoors in shared public space. That is not a bolt-on sustainability post; it is a narrative thread connecting repertoire, communities and place.</div>
+      </details>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ============ PANEL 2: PLAN ============ -->
+  <sc-if value="{{ isPlan }}" hint-placeholder-val="{{ false }}">
+  <section aria-label="The 90-Day Plan">
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(26px,3.4vw,38px);line-height:1.15;margin:0 0 10px">The first 90 days, timed to your tour.</h2>
+    <p style="color:#5f5044;max-width:68ch;margin:0 0 44px;font-size:15.5px;line-height:1.7">Whoever takes this role walks in mid-tour. That is not a complication; it is <strong style="color:#2b1c14;font-weight:500">the best onboarding a storyteller could ask for</strong>. This plan starts where SPD will actually be in August 2026: on the road, outdoors, in front of new audiences.</p>
+
+    <div style="display:flex;gap:0;border:1px solid #2b1c14;flex-wrap:wrap;margin-bottom:0">
+      <button role="tab" aria-selected="{{ isPh1 }}" onclick="{{ goPh1 }}" style="{{ ph1BtnStyle }}" style-hover="background:#f3e4d0">
+        <span style="display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:{{ ph1LabelColor }}">Days 1-30 · August</span>
+        <span style="display:block;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-top:4px;color:{{ ph1TitleColor }}">Listen &amp; Capture</span>
+      </button>
+      <button role="tab" aria-selected="{{ isPh2 }}" onclick="{{ goPh2 }}" style="{{ ph2BtnStyle }}" style-hover="background:#f3e4d0">
+        <span style="display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:{{ ph2LabelColor }}">Days 31-60 · September</span>
+        <span style="display:block;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-top:4px;color:{{ ph2TitleColor }}">Build the Framework</span>
+      </button>
+      <button role="tab" aria-selected="{{ isPh3 }}" onclick="{{ goPh3 }}" style="{{ ph3BtnStyle }}" style-hover="background:#f3e4d0">
+        <span style="display:block;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:600;color:{{ ph3LabelColor }}">Days 61-90 · October</span>
+        <span style="display:block;font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600;margin-top:4px;color:{{ ph3TitleColor }}">Scale &amp; Prove</span>
+      </button>
+    </div>
+
+    <sc-if value="{{ isPh1 }}" hint-placeholder-val="{{ true }}">
+    <div style="border:1px solid #2b1c14;border-top:none;padding:36px;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;margin-bottom:56px">
+      <div>
+        <h4 style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin:0 0 16px">Actions</h4>
+        <ul style="list-style:none;margin:0;padding:0">
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Join the tour on the road: capture stills, reels and dancer voices at every reachable date</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Audit brand voice with Seeta and the team: what SPD sounds like, and what it never sounds like</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Baseline all analytics; set up unified scheduling and reporting (Hootsuite-certified workflow)</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Quick accessibility pass: captions, subtitles and alt text on all active content</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Map the archive: every asset, every right, every permission, GDPR-clean from day one</li>
+        </ul>
+      </div>
+      <div style="background:#f3e4d0;padding:26px;font-size:14.5px;color:#8a7565;align-self:start">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;display:block;margin-bottom:12px;line-height:1.3">Why this first?</span>
+        <b style="color:#2b1c14;font-weight:500">Trust before voice.</b> The job pack calls this role the guardian of SPD's voice and aesthetic, and guardianship is earned by listening. Meanwhile the tour is generating once-a-year content that must be captured now, even if much of it is published later.
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isPh2 }}" hint-placeholder-val="{{ false }}">
+    <div style="border:1px solid #2b1c14;border-top:none;padding:36px;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;margin-bottom:56px">
+      <div>
+        <h4 style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin:0 0 16px">Actions</h4>
+        <ul style="list-style:none;margin:0;padding:0">
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Build the narrative framework around your four value areas, taken straight from the job pack: Artistic · Talent Development · Community · Organisational</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Launch the TikTok pilot with three repeatable formats tested against real data</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Begin the archive remix series across Instagram and YouTube Shorts</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Stand up the rolling 90-day editorial calendar: proactive, not reactive, as the pack demands</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Open reciprocal amplification conversations with South Asian artists and dance influencers</li>
+        </ul>
+      </div>
+      <div style="background:#f3e4d0;padding:26px;font-size:14.5px;color:#8a7565;align-self:start">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;display:block;margin-bottom:12px;line-height:1.3">Why now?</span>
+        <b style="color:#2b1c14;font-weight:500">Tour momentum becomes structure.</b> Your job pack asks for someone to translate SPD's artistic, talent development, community and organisational value into clear, confident narratives. September turns a month of captured material into exactly that: one durable framework, four value areas, every post tracing back to one of them.
+      </div>
+    </div>
+    </sc-if>
+    <sc-if value="{{ isPh3 }}" hint-placeholder-val="{{ false }}">
+    <div style="border:1px solid #2b1c14;border-top:none;padding:36px;display:grid;grid-template-columns:1.1fr .9fr;gap:44px;margin-bottom:56px">
+      <div>
+        <h4 style="font-size:12px;letter-spacing:.2em;text-transform:uppercase;font-weight:600;margin:0 0 16px">Actions</h4>
+        <ul style="list-style:none;margin:0;padding:0">
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>First quarterly impact report: growth, engagement and audience insight mapped to organisational objectives</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Build the ACE Annual Survey-ready measurement framework: funder reporting without the scramble</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Launch LinkedIn presence centred on Talent Development Programme stories</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px;border-bottom:1px solid #ddc7a8"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Plan the autumn/winter narrative arc with the artistic and producing team</li>
+          <li style="padding:10px 0 10px 26px;position:relative;font-size:14.5px"><span style="position:absolute;left:0;color:#ad4a1f">+</span>Review, kill or scale every format based on 60 days of evidence</li>
+        </ul>
+      </div>
+      <div style="background:#f3e4d0;padding:26px;font-size:14.5px;color:#8a7565;align-self:start">
+        <span style="font-family:'Cormorant Garamond',serif;font-size:21px;color:#2b1c14;display:block;margin-bottom:12px;line-height:1.3">Why this matters?</span>
+        <b style="color:#2b1c14;font-weight:500">Success here is more than metrics</b>, the pack says so itself. But funders need numbers, and the Executive Director should never have to chase them. By day 90: a measurable growth story, a working editorial system, and a team that trusts the person telling its story.
+      </div>
+    </div>
+    </sc-if>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">Your job pack names four kinds of value. Here is a voice for each.</p>
+    <div style="border-top:1px solid #2b1c14;margin-bottom:56px">
+      <div data-reveal="1" style="display:grid;grid-template-columns:210px 1fr;gap:28px;padding:20px 6px;border-bottom:1px solid #ddc7a8;transition:background .2s" style-hover="background:#f3e4d0">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600">Artistic<small style="display:block;font-family:'Poppins',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#ad4a1f;font-weight:600;margin-top:4px">the work itself</small></div>
+        <div style="font-size:14.5px;color:#8a7565;align-self:center">The repertoire is the hero: <em style="color:#2b1c14;font-style:italic">The Rite of Spring</em>, the Bournemouth Symphony Orchestra collaboration, the projection mapping, the craft of Bharatanatyam. Trailers and archive re-cut so audiences feel the ambition before they read a word.</div>
+      </div>
+      <div data-reveal="1" style="display:grid;grid-template-columns:210px 1fr;gap:28px;padding:20px 6px;border-bottom:1px solid #ddc7a8;transition:background .2s" style-hover="background:#f3e4d0">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600">Talent development<small style="display:block;font-family:'Poppins',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#ad4a1f;font-weight:600;margin-top:4px">the future of the form</small></div>
+        <div style="font-size:14.5px;color:#8a7565;align-self:center">Your Talent Development Programme, now in its fourth year, is a story of <em style="color:#2b1c14;font-style:italic">pathways</em>, not just performances. Early-career dancer profiles, rehearsal-room process and choreographic-innovation content, the kind of narrative that also reads well to funders and on LinkedIn.</div>
+      </div>
+      <div data-reveal="1" style="display:grid;grid-template-columns:210px 1fr;gap:28px;padding:20px 6px;border-bottom:1px solid #ddc7a8;transition:background .2s" style-hover="background:#f3e4d0">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600">Community<small style="display:block;font-family:'Poppins',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#ad4a1f;font-weight:600;margin-top:4px">audiences beyond the circle</small></div>
+        <div style="font-size:14.5px;color:#8a7565;align-self:center">The outdoor tour puts SPD in parks and public squares, free and without a dress code. Content built <em style="color:#2b1c14;font-style:italic">with</em> each host community, plus the environmental-justice thread the Rite already carries, broadens the audience the pack asks you to grow.</div>
+      </div>
+      <div data-reveal="1" style="display:grid;grid-template-columns:210px 1fr;gap:28px;padding:20px 6px;transition:background .2s" style-hover="background:#f3e4d0">
+        <div style="font-family:'Cormorant Garamond',serif;font-size:22px;font-weight:600">Organisational<small style="display:block;font-family:'Poppins',sans-serif;font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#ad4a1f;font-weight:600;margin-top:4px">the case for support</small></div>
+        <div style="font-size:14.5px;color:#8a7565;align-self:center">Growth, reach and engagement mapped to objectives and to the ACE Annual Survey, so the Executive Director never has to chase numbers. Storytelling that doubles as evidence for the next funding round.</div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">Four campaign concepts, ready to pressure-test</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:16px;margin-bottom:56px">
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:26px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <span style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ad4a1f;margin-bottom:12px">Tour · short-form</span>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:600;line-height:1.15;margin:0 0 10px">Rite, Outside</h3>
+        <p style="font-size:13.5px;color:#8a7565;flex:1;margin:0">A tour-diary series following <em>The Rite of Spring</em> across England's outdoor spaces. Each stop: a 60-second recap reel, one dancer voice, one audience moment. Venues co-publish; reach compounds weekly.</p>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #ddc7a8;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8a7565">Instagram · TikTok · venue partners</div>
+      </div>
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:26px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <span style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ad4a1f;margin-bottom:12px">Heritage · education</span>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:600;line-height:1.15;margin:0 0 10px">Adavu of the Week</h3>
+        <p style="font-size:13.5px;color:#8a7565;flex:1;margin:0">One step, one rhythm, one meaning: Bharatanatyam vocabulary taught in 30 seconds by company artists. Builds the educated audience a repertoire company needs, and honours the classical form without dilution.</p>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #ddc7a8;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8a7565">TikTok · Reels · YouTube Shorts</div>
+      </div>
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:26px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <span style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ad4a1f;margin-bottom:12px">Archive · remix</span>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:600;line-height:1.15;margin:0 0 10px">From the Vault</h3>
+        <p style="font-size:13.5px;color:#8a7565;flex:1;margin:0">The Olivier run, the projection mapping, the India masterclasses, re-cut as story-first clips with present-day framing. Ten years of work becomes this year's content at near-zero production cost.</p>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #ddc7a8;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8a7565">Instagram · YouTube · newsletter</div>
+      </div>
+      <div data-reveal="1" style="border:1px solid #ddc7a8;padding:26px;transition:border-color .2s,transform .2s;display:flex;flex-direction:column" style-hover="border-color:#2b1c14;transform:translateY(-3px)">
+        <span style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:#ad4a1f;margin-bottom:12px">Climate · community</span>
+        <h3 style="font-family:'Cormorant Garamond',serif;font-size:25px;font-weight:600;line-height:1.15;margin:0 0 10px">Mother Earth, Outdoors</h3>
+        <p style="font-size:13.5px;color:#8a7565;flex:1;margin:0">The Rite is the story of the Earth, performed in parks and public squares. A thread connecting the work's themes to each host community and to environmental justice, in SPD's voice: vital, political, beautiful, urgent.</p>
+        <div style="margin-top:16px;padding-top:14px;border-top:1px solid #ddc7a8;font-size:11px;letter-spacing:.1em;text-transform:uppercase;color:#8a7565">All channels · partners &amp; press</div>
+      </div>
+    </div>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">Show, not tell: sample content in SPD's voice, mocked up for this application</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:26px;align-items:start;margin-bottom:16px">
+      <div style="max-width:262px;margin:0 auto;width:100%">
+        <div role="img" aria-label="Mock-up of an Instagram post by seetapateldance announcing the outdoor tour of The Rite of Spring" style="border:1px solid #2b1c14;border-radius:22px;overflow:hidden;background:#fff;box-shadow:0 20px 44px -30px rgba(43,28,20,.4)">
+          <div style="display:flex;align-items:center;gap:9px;padding:10px 12px"><span style="width:30px;height:30px;border-radius:50%;background:#ad4a1f;color:#fff;display:grid;place-items:center;font-size:10px;font-weight:600;flex:none;letter-spacing:.05em">SP</span><span style="font-size:11px;line-height:1.3"><b style="font-weight:600;display:block">seetapateldance</b><span style="color:#8a7565;font-size:10px">Outdoor tour · England</span></span></div>
+          <div style="aspect-ratio:1/1;background:#2b1c14;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px;text-align:center;padding:18px"><span style="font-family:'Cormorant Garamond',serif;font-size:31px;font-weight:600;line-height:1.05;font-style:italic">The Rite<br>of Spring</span><span style="font-size:8.5px;letter-spacing:.3em;text-transform:uppercase;color:#e0cbb0">free · outdoors · summer 2026</span></div>
+          <div style="display:flex;gap:13px;padding:10px 12px 5px;color:#2b1c14" aria-hidden="true">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.6-9.2-8.8C1.2 8 3 5 6.2 5c2 0 3.3 1 3.8 2 .5-1 1.8-2 3.8-2 3.2 0 5 3 3.4 6.2C19 15.4 12 20 12 20z"></path></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12a8 8 0 0 1-8 8H4l1.5-3A8 8 0 1 1 21 12z"></path></svg>
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>
+          </div>
+          <div style="padding:0 12px;font-size:11px;font-weight:600">412 likes</div>
+          <p style="padding:3px 12px 13px;font-size:11px;line-height:1.55;margin:0"><b style="font-weight:600">seetapateldance</b> A hundred years ago, The Rite of Spring caused a riot in a Paris theatre. This summer, we bring it to a park near you. Free, outdoors, no dress code. Just bring someone who thinks dance isn't for them&hellip; <span style="color:#8a7565">more</span></p>
+        </div>
+        <p style="text-align:center;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8a7565;margin-top:12px;font-weight:600">Tour announcement · Instagram</p>
+      </div>
+      <div style="max-width:262px;margin:0 auto;width:100%">
+        <div role="img" aria-label="Mock-up of a TikTok video cover for the Adavu of the Week series" style="border:1px solid #2b1c14;border-radius:22px;overflow:hidden;background:#2b1c14;color:#fff;aspect-ratio:9/15;position:relative;display:flex;flex-direction:column;box-shadow:0 20px 44px -30px rgba(43,28,20,.4)">
+          <div style="text-align:center;font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:#c9b596;padding:12px 0 0">For You</div>
+          <div style="flex:1;display:flex;flex-direction:column;justify-content:center;gap:10px;padding:0 40px 0 16px"><span style="font-size:8.5px;letter-spacing:.28em;text-transform:uppercase;color:#e0954f">Adavu of the Week · 01</span><span style="font-family:'Cormorant Garamond',serif;font-size:25px;line-height:1.15;font-weight:600;font-style:italic">Two thousand years,<br>thirty seconds.</span></div>
+          <div style="position:absolute;right:9px;bottom:78px;display:flex;flex-direction:column;gap:13px;align-items:center;font-size:8.5px;color:#e8e8e8;text-align:center" aria-hidden="true">
+            <span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M12 20s-7-4.6-9.2-8.8C1.2 8 3 5 6.2 5c2 0 3.3 1 3.8 2 .5-1 1.8-2 3.8-2 3.2 0 5 3 3.4 6.2C19 15.4 12 20 12 20z"></path></svg>2.1K</span>
+            <span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M21 12a8 8 0 0 1-8 8H4l1.5-3A8 8 0 1 1 21 12z"></path></svg>184</span>
+            <span><svg viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M22 2 11 13M22 2l-7 20-4-9-9-4 20-7z"></path></svg>96</span>
+          </div>
+          <div style="padding:0 40px 15px 16px;font-size:10px;line-height:1.55;color:#e8e8e8"><b style="display:block;font-weight:600;color:#fff">@seetapateldance</b><span>One step, one rhythm, one meaning: what your eye misses at full speed.</span><span style="display:block;margin-top:4px;color:#c9b596">&#9834; thaiyya thai · original sound</span></div>
+        </div>
+        <p style="text-align:center;font-size:10.5px;letter-spacing:.16em;text-transform:uppercase;color:#8a7565;margin-top:12px;font-weight:600">Adavu of the Week · TikTok</p>
+      </div>
+    </div>
+    <p style="font-size:11.5px;color:#8a7565;font-style:italic;margin:18px 0 56px">Illustrative mock-ups designed for this application; nothing here has been published. The register I aimed for is SPD's own: vital, political, beautiful, urgent. Every real asset would ship with alt text, subtitles and stakeholder approval before publication, and this page itself follows accessibility best practice: semantic structure, keyboard navigation, reduced-motion support.</p>
+
+    <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0 0 18px;display:flex;align-items:center;gap:14px;color:#2b1c14" style-after="content:'';flex:1;height:1px;background:#ddc7a8">Directional targets, to be re-set against real analytics in week one</p>
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:16px">
+      <div style="border:1px solid #ddc7a8;padding:24px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#8a7565">Instagram followers</div><div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;margin:10px 0 4px">2.7K<span style="color:#ad4a1f;font-size:24px;margin:0 6px">&rarr;</span>5K+</div><p style="font-size:12.5px;color:#8a7565;margin:0">within 6 months, organic-first, driven by tour coverage and short-form</p></div>
+      <div style="border:1px solid #ddc7a8;padding:24px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#8a7565">TikTok</div><div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;margin:10px 0 4px">0<span style="color:#ad4a1f;font-size:24px;margin:0 6px">&rarr;</span>Live</div><p style="font-size:12.5px;color:#8a7565;margin:0">three tested formats and a publishing rhythm by day 60</p></div>
+      <div style="border:1px solid #ddc7a8;padding:24px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#8a7565">Archive output</div><div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;margin:10px 0 4px">1<span style="color:#ad4a1f;font-size:24px;margin:0 6px">&rarr;</span>10</div><p style="font-size:12.5px;color:#8a7565;margin:0">every shoot repurposed into ten assets across formats and channels</p></div>
+      <div style="border:1px solid #ddc7a8;padding:24px"><div style="font-size:12px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:#8a7565">Reporting</div><div style="font-family:'Cormorant Garamond',serif;font-size:34px;font-weight:600;margin:10px 0 4px">Quarterly</div><p style="font-size:12.5px;color:#8a7565;margin:0">impact reports mapped to organisational objectives and ACE survey requirements</p></div>
+    </div>
+  </section>
+  </sc-if>
+
+  <!-- ============ PANEL 3: FIT ============ -->
+  <sc-if value="{{ isFit }}" hint-placeholder-val="{{ false }}">
+  <section aria-label="The Fit">
+    <h2 style="font-family:'Cormorant Garamond',Georgia,serif;font-weight:500;font-size:clamp(26px,3.4vw,38px);line-height:1.15;margin:0 0 10px">The person specification, answered line by line.</h2>
+    <p style="color:#5f5044;max-width:68ch;margin:0 0 44px;font-size:15.5px;line-height:1.7">Your pack asks for <strong style="color:#2b1c14;font-weight:500">&ldquo;the voice that brings our brand to life, while safeguarding the integrity and quality of everything we put out into the world.&rdquo;</strong> Below is that person, criterion by criterion: six years across HBO India, PhonePe, McDonald's UK and start-up brands; an MSc in Marketing &amp; Brand Management from Oxford Brookes, <strong style="color:#2b1c14;font-weight:500">graduated with Distinction</strong>; and a South Asian heritage that makes SPD's mission personal, not professional. Every claim below is one I can defend in the interview on 27 July.</p>
+
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+      <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0;color:#2b1c14">Essential criteria</p>
+      <p style="font-size:13px;color:#8a7565;margin:0"><b style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#2b1c14">7/7</b> evidenced</p>
+    </div>
+    <p style="font-size:11.5px;color:#8a7565;font-style:italic;margin:0 0 16px">Figures below are self-reported from employer performance reviews and campaign reports; source detail available on request.</p>
+    <div style="border-top:1px solid #2b1c14;margin-bottom:48px">
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Proactive, creative social media &amp; original content across video, photography and graphics</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">Built short-form video that moved numbers, not just feeds: <b style="color:#2b1c14;font-weight:500">viral TikTok and Reels content at Phot.ai lifting brand engagement by 35%</b>, and seasonal campaign content for British Alpaka Fashion driving a <b style="color:#2b1c14;font-weight:500">40% increase in reach during AMBIENTE Frankfurt</b>, a heritage-craft brand with a sensitive cultural story, told carefully.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">+35% engagement · Phot.ai</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">+40% reach · AMBIENTE Frankfurt</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">This dashboard, made before day one</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Strong knowledge of managing social platforms, scheduling tools and analytics</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px"><b style="color:#2b1c14;font-weight:500">Hootsuite Platform Certified</b>, daily-fluent in Meta Business Suite, Google Analytics, Zoho Social and Excel/Data Studio reporting. At McDonald's UK, used analytics to retime posting and <b style="color:#2b1c14;font-weight:500">lift visibility by 19%</b>; delivered weekly cross-functional insight reports at Phot.ai.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Hootsuite certified</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">+19% visibility via data · McDonald's</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">GA · Meta Suite · Data Studio</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Intelligent editorial judgement: representing complex cultural practice clearly and sensitively</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">Managed brand voice for <b style="color:#2b1c14;font-weight:500">HBO India, PhonePe and Pogo</b>, household names where one wrong-register post is a news story. MSc in Marketing &amp; Brand Management (Distinction) with a dissertation applying brand-identity strategy for a Heathrow Airport project. I know the difference between content that chases attention and content that earns trust.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">HBO India · PhonePe brand work</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">MSc Distinction · Oxford Brookes</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Videography and video editing skills</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">Hands-on with <b style="color:#2b1c14;font-weight:500">Adobe Premiere Pro</b> and the Adobe Creative Suite; shot and edited the short-form video behind the Phot.ai engagement results. Comfortable capturing at live events and turning footage around fast, exactly what workshops, performances and community events demand.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Premiere Pro · Creative Suite</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Short-form video, shot &amp; edited</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Experience with graphic design tools such as Canva or equivalent</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">Canva daily for five years, plus <b style="color:#2b1c14;font-weight:500">Adobe Illustrator and Photoshop</b> for brand-grade assets, including promotional materials whose click-through rates rose <b style="color:#2b1c14;font-weight:500">25%</b> at British Alpaka Fashion.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Canva · Illustrator · Photoshop</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">+25% CTR on designed assets</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">A genuine understanding of equity, diversity and inclusion, and why it matters in the arts</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">Not a module on a course for me, but a lived position. <b style="color:#2b1c14;font-weight:500">A South Asian woman building a career in the UK creative industries</b>, I know what it means when an organisation like SPD makes space, and what it costs when nobody does. Professionally: designed an NHS-informed donor campaign addressing the needs of LGBTQ+ family-builders with care and evidence.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Lived experience</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Inclusive campaign design · X&amp;Y Fertility</span>
+        </div>
+      </details>
+      <details>
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Managing permissions, image rights and confidentiality in line with GDPR</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">Trained and practised in UK-market GDPR workflows at McDonald's UK and through email marketing operations (MailerLite, Mailchimp) where consent management is the work. My week-one archive audit at SPD starts with rights and permissions, not aesthetics.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">UK GDPR practice · McDonald's</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Consent-based email ops</span>
+        </div>
+      </details>
+    </div>
+
+    <div style="display:flex;justify-content:space-between;align-items:baseline;margin-bottom:6px">
+      <p style="font-size:11px;letter-spacing:.26em;text-transform:uppercase;font-weight:600;margin:0;color:#2b1c14">Desirable criteria</p>
+      <p style="font-size:13px;color:#8a7565;margin:0"><b style="font-family:'Cormorant Garamond',serif;font-size:26px;color:#2b1c14">4/5</b> evidenced</p>
+    </div>
+    <div style="border-top:1px solid #2b1c14;margin-bottom:64px">
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Knowledge of, and sensitivity to, South Asian arts, culture and heritage</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">I grew up inside this culture: its festivals, its music, its classical forms, its languages. I will never need the significance of Bharatanatyam explained to me, and I will never flatten it for an algorithm. <b style="color:#2b1c14;font-weight:500">That is the &ldquo;guardian of voice and aesthetic&rdquo; instinct the role demands.</b></p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Heritage &amp; cultural fluency</span><span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Hindi speaker</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">An interest in dance and the role of artistry in social change</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">SPD's claim that dance is &ldquo;a profound force in society&rdquo; is why this application exists. My research for this dashboard, from the Olivier first to the India masterclasses to the outdoor Rite as climate story, was done unpaid and unprompted, because the work is genuinely compelling to me.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">This dashboard is the evidence</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Understanding of e-safety and digital safeguarding</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">Community management for a global family brand (McDonald's) means moderation, escalation and protecting young audiences in practice. I would operate inside SPD's Safeguarding Policy from day one and flag, never improvise, on grey areas.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Community moderation · family brands</span>
+        </div>
+      </details>
+      <details style="border-bottom:1px solid #ddc7a8">
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;background:#2b1c14;color:#fbf1e2">&#10003;</span><span style="flex:1">Interest in performance documentation and heritage archives</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">&ldquo;Wake the archive&rdquo; is pillar three of my plan for a reason: repurposing existing footage into new assets has been central to my best-performing work. A first-of-its-kind company is making history that must be documented properly, and I find that genuinely exciting.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Archive-remix methodology</span>
+        </div>
+      </details>
+      <details>
+        <summary style="list-style:none;display:flex;align-items:center;gap:18px;cursor:pointer;padding:20px 6px;font-size:15px" style-hover="background:#f3e4d0"><span style="width:22px;height:22px;border:1px solid #2b1c14;border-radius:50%;flex:none;display:grid;place-items:center;font-size:12px;color:#2b1c14">&#9675;</span><span style="flex:1">Experience working with dance companies or culturally specific organisations</span><span style="font-size:20px;font-weight:300;color:#8a7565">+</span></summary>
+        <div style="padding:4px 6px 26px 46px;max-width:78ch">
+          <p style="font-size:14px;color:#8a7565;margin:0 0 10px">I will be honest: I have not yet worked inside a dance company. I bring <b style="color:#2b1c14;font-weight:500">brand-side rigour from HBO, PhonePe and McDonald's</b> plus deep cultural fluency, rather than arts-sector tenure. I would argue that is the trade SPD wants: the pack asks for someone to grow audiences <em>beyond</em> the existing circle, and I have spent six years winning attention in the noisiest feeds on earth.</p>
+          <span style="display:inline-block;font-size:12px;border:1px solid #ddc7a8;padding:4px 12px;margin:4px 6px 0 0;border-radius:999px;color:#2b1c14">Transferable, and honestly framed</span>
+        </div>
+      </details>
+    </div>
+
+    <div data-reveal="1" style="border:1px solid #2b1c14;padding:48px;margin-top:20px;display:grid;grid-template-columns:auto 1fr;gap:40px;align-items:start;background:#f3e4d0">
+      <div style="font-family:'Cormorant Garamond',serif;font-size:90px;line-height:.6;font-style:italic;color:#ad4a1f">&ldquo;</div>
+      <div>
+        <blockquote style="font-family:'Cormorant Garamond',serif;font-size:clamp(20px,2.6vw,27px);line-height:1.45;font-weight:500;margin:0">SPD asks bold questions of its audiences. This is my honest answer to one of them: what I noticed, what I'd prioritise, and where I still have things to learn. I'd welcome the chance to test it with you and the team on 27 July.</blockquote>
+        <p style="margin-top:20px;font-size:12px;letter-spacing:.18em;text-transform:uppercase;color:#8a7565;font-weight:500">Pragya Arya · Oxford, June 2026</p>
+      </div>
+    </div>
+  </section>
+  </sc-if>
+
+  </main>
+
+  <footer style="border-top:1px solid #2b1c14;padding:40px 28px 60px">
+    <div style="display:flex;justify-content:space-between;gap:24px;flex-wrap:wrap">
+      <div style="font-size:14px">
+        <strong style="font-weight:600">Pragya Arya</strong><br>
+        <a href="/cdn-cgi/l/email-protection#3d4e5253544d4f5c5a445c057d5a505c5451135e5250" style="text-decoration:underline;text-underline-offset:3px"><span class="__cf_email__" data-cfemail="92e1fdfcfbe2e0f3f5ebf3aad2f5fff3fbfebcf1fdff">[email&#160;protected]</span></a> · +44 7393 070038<br>
+        <a href="https://www.linkedin.com/in/pragya-arya-630022109/" rel="noopener" style="text-decoration:underline;text-underline-offset:3px">LinkedIn</a> · Oxford, UK
+      </div>
+      <p style="font-size:11.5px;color:#8a7565;max-width:46ch;margin:0">All Seeta Patel Dance data compiled from public sources in June 2026; follower counts approximate at time of writing. Growth targets are directional and would be re-baselined against company analytics. Built by hand, with accessibility in mind, as a working sample for the Communications, Content &amp; Narrative Lead application.</p>
+    </div>
+  </footer>
+</div>
+
+</x-dc>
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script type="text/x-dc" data-dc-script>
+class Component extends DCLogic {
+  state = {
+    tab: 'audit', phase: 'ph1',
+    countNom: 0, countIGHero: 0, countIGChan: 0, countFB: 0,
+    barStory: 0, barReach: 0, barShort: 0, barArchive: 0
+  };
+
+  componentDidMount() {
+    this.runCounters();
+    this.setupReveal();
+  }
+
+  componentWillUnmount() {
+    if (this.io) this.io.disconnect();
+  }
+
+  runCounters() {
+    const targets = { countNom: 1, countIGHero: 2719, countIGChan: 2719, countFB: 1300 };
+    const bars = { barStory: 96, barReach: 14, barShort: 6, barArchive: 18 };
+    const dur = 1300; const t0 = performance.now();
+    const step = (t) => {
+      const p = Math.min((t - t0) / dur, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      const next = {};
+      Object.keys(targets).forEach(k => { next[k] = Math.round(targets[k] * eased); });
+      Object.keys(bars).forEach(k => { next[k] = Math.round(bars[k] * eased); });
+      this.setState(next);
+      if (p < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  setupReveal() {
+    const root = this.rootRef && this.rootRef.current;
+    if (!root || !('IntersectionObserver' in window)) return;
+    const els = root.querySelectorAll('[data-reveal]');
+    els.forEach(el => { el.style.opacity = '0'; el.style.transform = 'translateY(16px)'; el.style.transition = 'opacity .7s ease, transform .7s ease'; });
+    this.io = new IntersectionObserver((entries) => {
+      entries.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.style.opacity = '1';
+          en.target.style.transform = 'none';
+          this.io.unobserve(en.target);
+        }
+      });
+    }, { threshold: 0.12 });
+    els.forEach(el => this.io.observe(el));
+  }
+
+  renderVals() {
+    const tab = this.state.tab, phase = this.state.phase;
+    const tabBase = "appearance:none;border:none;background:none;cursor:pointer;font-family:'Poppins',sans-serif;font-size:13px;font-weight:500;letter-spacing:.14em;text-transform:uppercase;padding:16px 26px 14px;border-bottom:3px solid ";
+    const mk = (active) => tabBase + (active ? '#2b1c14;color:#2b1c14' : 'transparent;color:#8a7565');
+    const phBase = "flex:1;min-width:180px;appearance:none;border:none;cursor:pointer;font-family:'Poppins',sans-serif;padding:20px 18px;text-align:left;border-right:1px solid #2b1c14;transition:background .2s;background:";
+    const mkPh = (active) => phBase + (active ? '#2b1c14' : 'transparent');
+    return {
+      rootRef: (this.rootRef = this.rootRef || React.createRef()),
+      isAudit: tab === 'audit', isPlan: tab === 'plan', isFit: tab === 'fit',
+      goAudit: () => this.setState({ tab: 'audit' }),
+      goPlan: () => this.setState({ tab: 'plan' }),
+      goFit: () => this.setState({ tab: 'fit' }),
+      tabAuditStyle: mk(tab === 'audit'),
+      tabPlanStyle: mk(tab === 'plan'),
+      tabFitStyle: mk(tab === 'fit'),
+      isPh1: phase === 'ph1', isPh2: phase === 'ph2', isPh3: phase === 'ph3',
+      goPh1: () => this.setState({ phase: 'ph1' }),
+      goPh2: () => this.setState({ phase: 'ph2' }),
+      goPh3: () => this.setState({ phase: 'ph3' }),
+      ph1BtnStyle: mkPh(phase === 'ph1'), ph2BtnStyle: mkPh(phase === 'ph2'), ph3BtnStyle: mkPh(phase === 'ph3'),
+      ph1LabelColor: phase === 'ph1' ? '#bdbdbd' : '#8a7565',
+      ph2LabelColor: phase === 'ph2' ? '#bdbdbd' : '#8a7565',
+      ph3LabelColor: phase === 'ph3' ? '#bdbdbd' : '#8a7565',
+      ph1TitleColor: phase === 'ph1' ? '#fbf1e2' : '#2b1c14',
+      ph2TitleColor: phase === 'ph2' ? '#fbf1e2' : '#2b1c14',
+      ph3TitleColor: phase === 'ph3' ? '#fbf1e2' : '#2b1c14',
+      countNom: this.state.countNom,
+      countIGHero: this.state.countIGHero.toLocaleString('en-GB'),
+      countIGChan: this.state.countIGChan.toLocaleString('en-GB'),
+      countFB: this.state.countFB.toLocaleString('en-GB'),
+      barStoryStyle: `display:block;height:100%;background:#2b1c14;width:${this.state.barStory}%;transition:width 1.1s cubic-bezier(.2,.7,.2,1)`,
+      barReachStyle: `display:block;height:100%;background:#ad4a1f;width:${this.state.barReach}%;transition:width 1.1s cubic-bezier(.2,.7,.2,1)`,
+      barShortStyle: `display:block;height:100%;background:#ad4a1f;width:${this.state.barShort}%;transition:width 1.1s cubic-bezier(.2,.7,.2,1)`,
+      barArchiveStyle: `display:block;height:100%;background:#ad4a1f;width:${this.state.barArchive}%;transition:width 1.1s cubic-bezier(.2,.7,.2,1)`
+    };
+  }
+}
+</script>
+</body>
+</html>
